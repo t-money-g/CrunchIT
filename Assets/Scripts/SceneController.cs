@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
@@ -14,12 +15,18 @@ public class SceneController : MonoBehaviour
     [SerializeField] private Tile originalTile;
     [SerializeField] private Sprite[] images;
 
+     private Text score;
     private Tile _firstRevealed;
     private Tile _secondRevealed;
     private Tile _thirdRevealed;
+
+    private int _score = 0;
     // Use this for initialization
     void Start ()
-	{
+    {
+        score = GameObject.Find("Canvas/Score").GetComponent<Text>();
+        score.text = _score.ToString();
+
 	    Vector3 startPos = originalTile.transform.position;
 	    for (int i = 0; i < cols; i++)
 	    {
@@ -63,22 +70,54 @@ public class SceneController : MonoBehaviour
         {
             _firstRevealed = tile;
         }
-        else if (_firstRevealed != null &&  _secondRevealed == null)
+        else if (_firstRevealed != null && _secondRevealed == null)
         {
             _secondRevealed = tile;
         }
         else
         {
             _thirdRevealed = tile;
+            /*
             Debug.Log("firstRevelaed " + _firstRevealed.id);
             Debug.Log("secondrevealed" + _secondRevealed.id);
             Debug.Log("Third revealed" + _thirdRevealed.id);
             Debug.Log("Match ? " + (_firstRevealed.id == _secondRevealed.id  && _secondRevealed.id == _thirdRevealed.id &&
                                     _firstRevealed.id == _thirdRevealed.id));
+             */
+
+            StartCoroutine(CheckMatch());
+        }
+    }
+
+    private IEnumerator CheckMatch()
+    {
+        if (_firstRevealed.id == _secondRevealed.id && _secondRevealed.id == _thirdRevealed.id &&
+                                    _firstRevealed.id == _thirdRevealed.id)
+        {
+            _score++;
+            score.text = _score.ToString();
+            Debug.Log("Score" + _score);
+            Destroy(_firstRevealed.gameObject);
+            Destroy(_secondRevealed.gameObject);
+            Destroy(_thirdRevealed.gameObject);
 
         }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            _firstRevealed.Unreveal();
+            _secondRevealed.Unreveal();
+            _thirdRevealed.Unreveal();
+        }
+
         
+
+        _firstRevealed = null;
+        _secondRevealed = null;
+        _thirdRevealed = null;
     }
+        
+    
 
 
 }
