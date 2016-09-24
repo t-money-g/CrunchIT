@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class SceneController : MonoBehaviour
 {
 
-    public const int rows = 5;
-    public const int cols = 5;
+    public const int rows = 6;
+    public const int cols = 6;
 
     public const float offsetX = 2.0f;
     public const float offsetY = 1.75f;
@@ -30,6 +30,7 @@ public class SceneController : MonoBehaviour
 	    Vector3 startPos = originalTile.transform.position;
 	    for (int i = 0; i < cols; i++)
 	    {
+            
 	        for (int j = 0; j < rows; j++)
 	        {
 	            Tile tile;
@@ -43,7 +44,11 @@ public class SceneController : MonoBehaviour
                     
 	            }
 
-	            int id = Random.Range(0, images.Length);
+                //int id = Random.Range(0, images.Length % 3);
+	            //if (images.Length%3 == 0)
+	            //{
+	                int id = j;
+	            //}
 	            tile.SetTile(id, images[id]);
 
 	            float posX = (offsetX*i) + startPos.x;
