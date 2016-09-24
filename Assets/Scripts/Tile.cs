@@ -23,8 +23,8 @@ public class Tile : MonoBehaviour
 	{
 	    
 	    m_spriteRenderer = GetComponent<SpriteRenderer>();
-        //transform.localScale = new Vector3(desiredScaleX, desiredScaleY, 1.0f);
-    }
+	   
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,14 +38,21 @@ public class Tile : MonoBehaviour
     }
     public void OnMouseDown()
     {
-        m_Selected = true;
-        m_spriteRenderer.color = Color.cyan;
+        if (controller.canReveal)
+        {
+            m_spriteRenderer.color = Color.cyan;
+            controller.TileRevealed(this);
             //Color.Lerp(new Color(m_spriteRenderer.color.r, m_spriteRenderer.color.g, m_spriteRenderer.color.b,
-        //m_spriteRenderer.color.a), Color.cyan , Time.fixedDeltaTime);
-       // new Color(255, 189, 229)
-        Debug.Log("Testing 1, 2 ,3");
-        
-        
+            //m_spriteRenderer.color.a), Color.cyan , Time.fixedDeltaTime);
+            // new Color(255, 189, 229)   
+        }
+        Debug.Log("clicked!" + id);
+        //Debug.Log();
+    }
+
+    public void Unreveal()
+    {
+        m_spriteRenderer.color = Color.white;
     }
 
     
