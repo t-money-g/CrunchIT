@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LocationService: MonoBehaviour
-{
+public class LocationService: MonoBehaviour {
+
 	IEnumerator Start() {
 		// First, check if user has location service enabled
 		if (!Input.location.isEnabledByUser)
@@ -40,4 +40,9 @@ public class LocationService: MonoBehaviour
 		// Code to stop using location services if needed
 		//Input.location.Stop();
 	}
-}
+
+	void Update() {
+		print ("Latitude: " + Input.location.lastData.latitude + " | Longitude: " + Input.location.lastData.longitude);
+	}
+
+}// end of LocationService class
